@@ -65,20 +65,6 @@ void loop() {
     Blynk.virtualWrite(V1, humidity);  // Send to virtual pin V1
   }
 
-  // Read and send LDR value to Blynk (V4)
-  int ldrValue = analogRead(LDR_PIN);
-  Blynk.virtualWrite(V4, ldrValue);
-
-  // Read and send Potentiometer 1 value to Blynk (V5)
-  int pot1Value = analogRead(POT1_PIN);
-  int pot1Mapped = map(pot1Value, 0, 1023, 0, 100);  // Map to 0-100 range for better visibility
-  Blynk.virtualWrite(V5, pot1Mapped);
-
-  // Read and send Potentiometer 2 value to Blynk (V6)
-  int pot2Value = analogRead(POT2_PIN);
-  int pot2Mapped = map(pot2Value, 0, 1023, 0, 100);  // Map to 0-100 range for better visibility
-  Blynk.virtualWrite(V6, pot2Mapped);
-
   // Delay to avoid flooding Blynk with data
   delay(5000);
 }
