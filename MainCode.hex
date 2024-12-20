@@ -1,4 +1,9 @@
-#include <DHT.h>
+#include <SPI.h>
+#include <Ethernet.h>
+#include <BlynkSimpleEthernet.h>
+
+#define BLYNK_AUTH_TOKEN "EeoTXKqiXhoLZ19pZRLTMsktXmsF3bDA"
+char auth[] = BLYNK_AUTH_TOKEN;
 
 // DHT11 sensor configuration
 #define DHTPIN 2        // PD2 (pin 4)
@@ -13,8 +18,11 @@ void setup() {
 
   // Initialize the DHT11 sensor
   dht.begin();
+
+  // Start Blynk
+  Blynk.begin(auth);
 }
 
 void loop() {
-  // Nothing yet
+  Blynk.run();
 }
