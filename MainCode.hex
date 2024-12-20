@@ -1,3 +1,7 @@
+#define BLYNK_TEMPLATE_ID "TMPL2YkmHT8nk"
+#define BLYNK_TEMPLATE_NAME "proj"
+#define BLYNK_AUTH_TOKEN "EeoTXKqiXhoLZ19pZRLTMsktXmsF3bDA"
+
 #include <SPI.h>
 #include <Ethernet.h>
 #include <BlynkSimpleEthernet.h>
@@ -17,12 +21,11 @@
 // Initialize DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
-// Blynk authentication token
-#define BLYNK_AUTH_TOKEN "EeoTXKqiXhoLZ19pZRLTMsktXmsF3bDA"
-char auth[] = BLYNK_AUTH_TOKEN;
-
-// Initialize BMP180 sensor
+// Initialize BMP180
 Adafruit_BMP085_Unified bmp;
+
+// Blynk authentication token
+char auth[] = BLYNK_AUTH_TOKEN;
 
 void setup() {
   // Start the Serial Monitor for debugging
@@ -31,10 +34,7 @@ void setup() {
   // Initialize the DHT11 sensor
   dht.begin();
 
-  // Start Blynk
-  Blynk.begin(auth);
-
-  // Initialize BMP180 sensor and check for successful connection
+  // Initialize the BMP180 sensor and check for successful connection
   if (!bmp.begin()) {
     Serial.println("BMP180 not detected. Check wiring!");
     while (1);  // Halt the program if BMP180 isn't detected
@@ -42,10 +42,16 @@ void setup() {
     Serial.println("BMP180 detected and initialized!");
   }
 
-  // Set up LDR and potentiometers (no sensors yet)
-  pinMode(LDR_PIN, INPUT);
-  pinMode(POT1_PIN, INPUT);
-  pinMode(POT2_PIN, INPUT);
+  // Start Blynk
+  Blynk.begin(auth);
+  
+  // Wait for Blynk to connect
+  while (!Blynk.connect()) {
+    Serial.println("Blynk connection failed! Retrying...");
+    delay(1000);
+  }
+  
+  Serial.println("Blynk connected!");
 }
 
 void loop() {
@@ -55,6 +61,7 @@ void loop() {
   float dhtTemperature = dht.readTemperature();
   float humidity = dht.readHumidity();
 
+  // Check if the DHT11 data is valid and send to Blynk
   if (!isnan(dhtTemperature)) {
     Serial.print("DHT11 Temperature: ");
     Serial.print(dhtTemperature);
@@ -80,6 +87,7 @@ void loop() {
   bmp.getTemperature(&bmpTemperature);
   bmp.getPressure(&pressure);
 
+  // Check if the BMP180 data is valid before sending to Blynk
   if (!isnan(bmpTemperature) && !isnan(pressure)) {
     Serial.print("BMP180 Temperature: ");
     Serial.print(bmpTemperature);
@@ -99,22 +107,22 @@ void loop() {
   int ldrValue = analogRead(LDR_PIN);
   Serial.print("LDR Value: ");
   Serial.println(ldrValue);
-  Blynk.virtualWrite(V4, ldrValue);
+  Blynk.virtualWrite(V6, ldrValue);
 
   // Read and send Potentiometer 1 value to Blynk (V5)
   int pot1Value = analogRead(POT1_PIN);
   int pot1Mapped = map(pot1Value, 0, 1023, 0, 100);  // Map to 0-100 range for better visibility
   Serial.print("Potentiometer 1 Value: ");
   Serial.println(pot1Mapped);
-  Blynk.virtualWrite(V5, pot1Mapped);
+  Blynk.virtualWrite(V4, pot1Mapped);
 
   // Read and send Potentiometer 2 value to Blynk (V6)
   int pot2Value = analogRead(POT2_PIN);
   int pot2Mapped = map(pot2Value, 0, 1023, 0, 100);  // Map to 0-100 range for better visibility
   Serial.print("Potentiometer 2 Value: ");
   Serial.println(pot2Mapped);
-  Blynk.virtualWrite(V6, pot2Mapped);
+  Blynk.virtualWrite(V5, pot2Mapped);
 
   // Delay to avoid flooding Blynk with data
-  delay(5000);
+  delay(5000);  // Increase the delay to 5 seconds to avoid flooding
 }
