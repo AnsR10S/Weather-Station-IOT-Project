@@ -1,0 +1,20 @@
+#include <DHT.h>
+
+// DHT11 sensor configuration
+#define DHTPIN 2        // PD2 (pin 4)
+#define DHTTYPE DHT11   // DHT11 sensor type
+
+// Initialize DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  // Start the Serial Monitor for debugging
+  Serial.begin(9600);
+
+  // Initialize the DHT11 sensor
+  dht.begin();
+}
+
+void loop() {
+  // Nothing yet
+}
