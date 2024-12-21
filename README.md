@@ -1,5 +1,4 @@
 # 🌤️ Weather Station - Monitor Temperature, Humidity, Wind Speed, Rain, and Other Weather Conditions
-Here's the updated `README.md` with acknowledgments for your TA and professor:
 
 ---
 
