@@ -16,6 +16,11 @@ This project implements a weather station using the **Arduino Uno** and various 
 - 📱 **Real-Time Data Visualization** via **Blynk**
 - 🌐 **Remote Monitoring** using **Ethernet W5500 Module**
 
+## ⚙️ Working Project
+![Devices-Blynk Console-GoogleChrome2024-12-2900-50-26-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/2a36f93a-b043-4b20-826a-9ce3432b43d4)
+![PICSimLab-Spareparts2024-12-2900-50-01-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/7380b472-afb1-4bf6-ae51-af6be4a4e1ba)
+
+
 ---
 
 ## 🛠️ Components Used
